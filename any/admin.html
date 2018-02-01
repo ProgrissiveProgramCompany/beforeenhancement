@@ -1,0 +1,60 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$dbname = "book_store";
+
+$conn = mysqli_connect($servername, $username, '', $dbname);
+if (!$conn) {
+	die ('Failed to connect to MySQL: ' . mysqli_connect_error());	
+}
+
+$sql = 'SELECT * 
+		FROM book';
+		
+$query = mysqli_query($conn, $sql);
+
+if (!$query) {
+	die ('SQL Error: ' . mysqli_error($conn));
+}
+?>
+<html>
+<head>
+	<title>Displaying MySQL Data in HTML Table</title>
+	</head>
+<body>
+	<h1>Table 1</h1>
+	<table class="data-table">
+		<caption class="title">Sales Data of Electronic Division</caption>
+		<thead>
+			<tr>
+				<th>NO</th>
+				<th>CUSTOMER</th>
+				<th>ITEM</th>
+				<th>DATE</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+		<?php
+		$no 	= 1;
+		$total 	= 0;
+		while ($row = mysqli_fetch_array($query))
+		{
+			echo '<tr>
+					<td>'.$row['b_name'].'</td>
+					<td>'.$row['b_page'].'</td>
+					<td>'. date('F d, Y', strtotime($row['Date'])) . '</td>
+					
+				</tr>';
+			
+		}?>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th colspan="4">TOTAL</th>
+			</tr>
+		</tfoot>
+	</table>
+</body>
+</html>
+
